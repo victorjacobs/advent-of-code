@@ -3,7 +3,7 @@ type State = (Int, Int) -- (nbOfVowels, twiceInARow)
 main = do
     content <- readFile "data.txt"
     let nbNiceStrings = niceStrings $ lines content
-    putStrLn $ show $ length nbNiceStrings
+    putStrLn $ show $ length $ nbNiceStrings
 
 niceStrings :: [String] -> [String]
 niceStrings strs = filter (isNiceString (0, 0)) strs
@@ -20,6 +20,7 @@ isNiceString _ ('p':'q':_) = False
 isNiceString _ ('x':'y':_) = False
 -- Double letters
 isNiceString (vowels, twiceInARow) str@(sa:sb:_)
+	| sa == sb && elem sa "aeiou" = isNiceString (vowels + 1, twiceInARow + 1) (tail str)
     | sa == sb        = isNiceString (vowels, twiceInARow + 1) (tail str)
 -- Vowels
 isNiceString state@(vowels, twiceInARow) str@(sa:_)
