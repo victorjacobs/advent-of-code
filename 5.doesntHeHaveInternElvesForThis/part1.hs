@@ -2,8 +2,8 @@ type State = (Int, Int) -- (nbOfVowels, twiceInARow)
 
 main = do
     content <- readFile "data.txt"
-    let nbNiceStrings = niceStrings $ lines content
-    putStrLn $ show $ length $ nbNiceStrings
+    let niceStringsInFile = niceStrings $ lines content
+    putStrLn $ show $ length $ niceStringsInFile
 
 niceStrings :: [String] -> [String]
 niceStrings strs = filter (isNiceString (0, 0)) strs

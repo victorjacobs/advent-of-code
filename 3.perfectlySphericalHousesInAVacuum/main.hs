@@ -5,7 +5,7 @@ type State = (Position, Map.Map Position Int)
 
 main = do
     content <- readFile "data.txt"
-    let initialState = ((0, 0), Map.singleton (0, 0) 1)
+    let initialState = ((0, 0), Map.empty)
     let (_, result) = foldl step initialState content
     putStrLn $ show $ Map.size result
 
