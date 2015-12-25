@@ -8,7 +8,7 @@ type Pos = (Int, Int)
 main = do
     content <- readFile "data.txt"
     let lights = foldl' processLine Map.empty (lines content)
-    putStrLn $ show $ Map.foldl + 0 lights
+    putStrLn $ show $ Map.foldl (+) 0 lights
 
 processLine :: State -> String -> State
 processLine state instruction = processInstruction (words instruction) state
@@ -43,8 +43,8 @@ turnOnLight Nothing = Just 1
 turnOnLight (Just b) = Just (b + 1)
 
 turnOffLight :: Maybe Int -> Maybe Int
-turnOffLight Nothing = Just (-1)
-turnOffLight (Just b) = Just (b - 1)
+turnOffLight Nothing = Just 0
+turnOffLight (Just b) = Just $ max (b - 1) 0
 
 toggleLight :: Maybe Int -> Maybe Int
 toggleLight Nothing = Just 2
