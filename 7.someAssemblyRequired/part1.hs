@@ -1,3 +1,4 @@
+import Data.Bits
 
 main = do
     content <- readFile "data.txt"

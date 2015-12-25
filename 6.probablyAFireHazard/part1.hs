@@ -14,29 +14,26 @@ processLine :: State -> String -> State
 processLine state instruction = processInstruction (words instruction) state
 
 processInstruction :: [String] -> State -> State
-processInstruction ("turn":value:from:_:to:_) state
-    | value == "on" = turnOnRectangle fromPos toPos state
-    | value == "off" = turnOffRectangle fromPos toPos state
+processInstruction ("turn":value:from:_:to:_)
+    | value == "on" = turnOnRectangle fromPos toPos
+    | value == "off" = turnOffRectangle fromPos toPos
         where fromPos = posFromString from
               toPos = posFromString to
-processInstruction ("toggle":from:_:to:_) state =
-    toggleRectangle (posFromString from) (posFromString to) state
+processInstruction ("toggle":from:_:to:_) =
+    toggleRectangle (posFromString from) (posFromString to)
 
 turnOnRectangle :: Pos -> Pos -> State -> State
-turnOnRectangle pos1 pos2 state = executeOnRectangle turnOnLight pos1 pos2 state
+turnOnRectangle pos1 pos2 = executeOnRectangle turnOnLight pos1 pos2
 
 turnOffRectangle :: Pos -> Pos -> State -> State
-turnOffRectangle pos1 pos2 state = executeOnRectangle turnOffLight pos1 pos2 state
+turnOffRectangle pos1 pos2 = executeOnRectangle turnOffLight pos1 pos2
 
 toggleRectangle :: Pos -> Pos -> State -> State
-toggleRectangle pos1 pos2 state = executeOnRectangle toggleLight pos1 pos2 state
+toggleRectangle pos1 pos2 = executeOnRectangle toggleLight pos1 pos2
 
 executeOnRectangle :: (Maybe Bool -> Maybe Bool) -> Pos -> Pos -> State -> State
 executeOnRectangle f (x1, y1) (x2, y2) state =
-    foldl' (curry $ mapAlter f) state [(x, y) | x <- [x1..x2], y <- [y1..y2]]
-
-mapAlter :: (Maybe Bool -> Maybe Bool) -> (State, Pos) -> State
-mapAlter f (state, pos) = Map.alter f pos state
+    foldr (Map.alter f) state [(x, y) | x <- [x1..x2], y <- [y1..y2]]
 
 turnOnLight :: Maybe Bool -> Maybe Bool
 turnOnLight _ = Just True
