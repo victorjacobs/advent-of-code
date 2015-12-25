@@ -23,13 +23,13 @@ processInstruction ("toggle":from:_:to:_) =
     toggleRectangle (posFromString from) (posFromString to)
 
 turnOnRectangle :: Pos -> Pos -> State -> State
-turnOnRectangle pos1 pos2 = executeOnRectangle turnOnLight pos1 pos2
+turnOnRectangle = executeOnRectangle turnOnLight
 
 turnOffRectangle :: Pos -> Pos -> State -> State
-turnOffRectangle pos1 pos2 = executeOnRectangle turnOffLight pos1 pos2
+turnOffRectangle = executeOnRectangle turnOffLight
 
 toggleRectangle :: Pos -> Pos -> State -> State
-toggleRectangle pos1 pos2 = executeOnRectangle toggleLight pos1 pos2
+toggleRectangle = executeOnRectangle toggleLight
 
 executeOnRectangle :: (Maybe Int -> Maybe Int) -> Pos -> Pos -> State -> State
 executeOnRectangle f (x1, y1) (x2, y2) state =
